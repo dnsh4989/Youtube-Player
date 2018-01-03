@@ -1,9 +1,43 @@
 <div class="jumbotron">
   <h1 class="display-4">Welcome to {{title}}</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  <hr>
+  <p>Please enter the url of the playlist you want to see.</p>
+  <input type="input" name="" placeholder="copy the URL here" #url>
+  <br/>
+  <br/>
+  <p>sample playlist url: <br/><b>https://www.youtube.com/watch?v=0BikjL858OQ&list=PLOETEcp3DkCoS_2cW205cfRGl-Xp5jw4K</b></p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    <a class="btn btn-primary btn-lg" href="#" role="button" (click)="fetch($event, url)">Fetch</a>
   </p>
+  <hr>
+  <youtube-player class="lead"
+      [videoId]="id"
+      (ready)="savePlayer($event)"
+      (change)="onStateChange($event)"
+    ></youtube-player>
+    <hr>
+
+    <div *ngIf="fetched">
+      <h3>Complete Playlist</h3>
+     
+      <div class="row thumbnail" >
+        <div class="col-xs-6 col-md-3" *ngFor="let v of playlistYoutube.items | slice:1">
+          <h6>{{v.snippet.title}}</h6>
+          <a href="#" class="thumbnail">
+            <img src="{{v.snippet.thumbnails.default.url}}" alt="{{v.snippet.title}}">
+          </a>
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <div class="col col-lg-2" *ngIf="counter">
+            <button type="button" class="btn btn-success" (click)="prevPage(playlistYoutube.prevPageToken)">Prev</button>
+        </div>
+        <div class="col-12 col-md-auto" *ngFor="let t of playlist; let i = index">
+             </div>
+        <div class="col col-lg-2">
+            <button type="button"  (click)="nextPage(playlistYoutube.nextPageToken)" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </div>
 </div>
